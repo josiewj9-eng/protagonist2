@@ -144,7 +144,7 @@ const handWorld = (P, hand = 1) => P.pp.hands[hand].getWorldPosition(new THREE.V
    PLACES: real doors, seats and spots of the v5 map (checked against the walkable grid at load)
    --------------------------------------------------------------------- */
 const D = (b) => WORLD.DOORS.find(d=>d.building === b);
-const HOUSE = { H03:'house-22', H01:'house-20', H02:'house-21', H05:'house-24', H06:'house-25', H07:'house-26', B3:'b3-19', H16:'house-35', H17:'house-36', H18:'house-37' };   // H_n = house-(19+n) (the spec's selector table)
+const HOUSE = { H07:'house-26', H08:'house-27', H09:'house-28', H10:'house-29', H11:'house-30', H15:'house-34', H22:'house-41', H03:'house-22', H01:'house-20', H02:'house-21', H05:'house-24', H06:'house-25', H07:'house-26', B3:'b3-19', H16:'house-35', H17:'house-36', H18:'house-37' };   // H_n = house-(19+n) (the spec's selector table)
 const free = (x, z, r = 0.28) => { const f = WORLD.floorAt(x, z); if (WORLD.freeAt(x, z, r, f)) return [x, z];
   for (let k=1;k<=14;k++) for (let a=0;a<12;a++){ const xx = x + Math.cos(a/12*Math.PI*2)*k*0.15, zz = z + Math.sin(a/12*Math.PI*2)*k*0.15; if (WORLD.freeAt(xx, zz, r, WORLD.floorAt(xx, zz)) && Math.abs(WORLD.floorAt(xx, zz) - f) < 0.4) return [xx, zz]; } return [x, z]; };
 const PL = {};
@@ -187,7 +187,14 @@ spot('OFFICE_DOOR_A', 18.4, -13.9, yawTo(0, 1)); spot('OFFICE_DOOR_B', 18.4, -12
 spot('E07_A', -6.05, 36.55, yawTo(1, 0)); spot('E07_B', -4.15, 36.55, yawTo(-1, 0)); seat('E07_BENCH', -5.1, 37.55, 0, -1, 0.47);
 spot('H17_VASE', 10.2, 28.4, yawTo(0, -1));
 // batch 5 (the core people's own stories): K01's bench front, the café door for the red mitten, grandma's door step, the bakery door
-spot('PLAZA_N_C', 0.35, -8.15, yawTo(0, -1)); spot('STORE_COUNTER2', 9.0, 45.7, yawTo(-1, 0)); spot('STORE_OUT', 6.4, 44.0, yawTo(1, 0));
+spot('PLAZA_N_C', 0.35, -8.15, yawTo(0, -1));
+// batch 7: the angler's stool on the north quay, the bench by the sea, the clock shop, the stationer, the bike repair, the bar alley, the school's door
+seat('FISH_SEAT', 76.0, -30.0, 1, 0, 0.4); spot('FISH_HELP', 75.0, -30.8, yawTo(0.6, 0.8)); spot('HARB_S', 71.5, 6.0, yawTo(1, 0));
+seat('SEA_SEAT_A', 75.0, 19.6, 1, 0, 0.47); seat('SEA_SEAT_B', 75.0, 20.4, 1, 0, 0.47); spot('SEA_APPROACH', 73.6, 20.6, yawTo(1, 0));
+spot('CLOCKSHOP_STAND', 32.5, -2.6, yawTo(0, 1)); spot('CLOCKSHOP_C', 32.5, -1.4, yawTo(0, -1)); shellIn('CLOCKSHOP_UP', 31.2, -3.7, 0, -1);
+spot('STATIONER_STAND', 60.3, 2.6, yawTo(0, -1)); spot('STATIONER_C', 60.3, 1.4, yawTo(0, 1)); spot('BIKE_REPAIR_STAND', 34.9, 2.6, yawTo(0, -1)); spot('BIKE_REPAIR_C', 34.9, 1.3, yawTo(0, 1));
+shellIn('BAR_UP', -51.5, 44.6, 0, -1); shellIn('SKEWERS_UP', -50.6, 48.6, 1, 0); spot('BAR_STAND', -51.0, 45.6, yawTo(0, -1)); spot('SKEWERS_STAND', -51.3, 49.8, yawTo(1, 0)); spot('SKEWERS_C', -52.4, 49.8, yawTo(1, 0));
+spot('STATION_DESK', -53.6, 0.2, yawTo(1, 0)); spot('SCHOOL_STEPS', 49.6, -36.4, yawTo(0, 1)); spot('SCHOOL_WAIT', 45.6, -35.2, yawTo(0, -1)); spot('SCHOOL_WAIT2', 44.6, -34.4, yawTo(0.6, -0.8)); spot('CAT_WATCH', -21.2, -14.6, yawTo(-0.3, -1)); spot('STORE_COUNTER2', 9.0, 45.7, yawTo(-1, 0)); spot('STORE_OUT', 6.4, 44.0, yawTo(1, 0));
 const LOOP_CLEAN = [[8, 37.2], [0, 37.2], [-6, 37.2], [-8, 12], [8, 12], [10, -2], [6, -9]]; spot('CAFE_DOOR_F', -21.0, -2.3, yawTo(0, -1)); spot('CAFE_DOOR_K', -20.2, -2.0, yawTo(-1, 0)); spot('H01_STEP', -55.0, -28.5, yawTo(0, -1)); spot('H01_C', -55.0, -29.5, yawTo(0, 1)); spot('BAKERY_C', 26.0, -1.6, yawTo(0, -1)); spot('ARC_W_SHOP', -17.2, -1.0, yawTo(0, 1)); spot('E07_AWAY', 4.0, 36.7, yawTo(1, 0));
 spot('ARCADE_COVER_W', -17.2, -2.3, yawTo(1, 0)); spot('ARCADE_COVER_E', 17.2, 2.3, yawTo(-1, 0));   // under the arcade's gate roofs (checked: covered)
 const stP = C.PLATFORMS.find(p=>p.id === 'station'), qP = C.PLATFORMS.find(p=>p.id === 'quay');
@@ -195,7 +202,7 @@ spot('STATION_WAIT', (stP.x0 + stP.x1)/2 + 0.2, stP.z0 + 9, 0, { platform:'stati
 spot('QUAY_WAIT', (qP.x0 + qP.x1)/2 - 3, qP.z0 + 1.3, 0, { platform:'quay' }); spot('QUAY_WAIT2', (qP.x0 + qP.x1)/2 - 4.2, qP.z0 + 1.3, 0, { platform:'quay' });
 spot('QUAY_EXIT', (qP.x0 + qP.x1)/2 + 5.5, qP.z0 + 1.2, yawTo(1, 0));                         // the quay's waiting hall: where the visitors' day ends
 // walking loops
-const LOOPS = { clean:LOOP_CLEAN, dogMorning:[[-55.8, -28.3], [-48, -28.2], [-40.5, -28.2], [-48, -28.4], [-55.8, -28.4], [-60.6, -28.6], [-55.8, -28.3]],
+const LOOPS = { seaRunN:[[73.4, -27], [73.6, -12], [73.4, -2], [73.6, -12], [73.4, -27]], seaRun:[[73.4, -27], [73.6, -4], [73.4, 20], [73.6, -4], [73.4, -27]], clean:LOOP_CLEAN, dogMorning:[[-55.8, -28.3], [-48, -28.2], [-40.5, -28.2], [-48, -28.4], [-55.8, -28.4], [-60.6, -28.6], [-55.8, -28.3]],
   dogEvening:[[-55.8, -28.3], [-50, -28.3], [-44.5, -28.3], [-50, -28.4], [-55.8, -28.3]] };
 // props that make a place readable: the café's take-away counter, a chair at grandma's door and at the nurse's, the stoop by 3B,
 // the lost-and-found box on the laundry's folding table, the slot by the empty house's boarded door, a stack of crates at the harbour
@@ -219,6 +226,15 @@ chairAt(-57.35, -27.3, 0); chairAt(-54.4, -27.3, Math.PI); chairAt(57.6, -27.35,
   [-0.68, 0.68].forEach(sx=>{ pbox(0.08, 0.44, 0.48, '#5a5470', sx, 0, -0.02, 0.01, 0, g); pbox(0.08, 0.45, 0.06, '#5a5470', sx, 0.44, -0.28, 0.01, 0, g); });
   WORLD.addCollider({ cx:bx0, cz:bz0 + 0.05, ux:1, uz:0, hx:0.85, hz:0.3, y0:G, y1:G + 0.9, glass:false, owner:'bench', name:'avenue bench' });
   PL.E07_BENCH_TOP = { x:bx0 + 0.45, y:G + 0.47, z:bz0, name:'meeting bench' }; }
+// batch 7 props: the bench by the sea (facing the water), the angler's stool, the courier's bicycle at the repair shop, the stationer's shelf
+{ const g = new THREE.Group(); g.position.set(75.0, G, 20.0); g.rotation.y = Math.PI/2; PROPS.add(g);
+  for (let i=0;i<3;i++) pbox(1.6, 0.05, 0.13, '#c8b8d8', 0, 0.42, -0.16 + i*0.16, 0.02, 0, g); for (let i=0;i<2;i++) pbox(1.6, 0.12, 0.05, '#c8b8d8', 0, 0.6 + i*0.17, -0.27, 0.02, 0, g);
+  [-0.68, 0.68].forEach(sx=>pbox(0.08, 0.44, 0.48, '#5a5470', sx, 0, -0.02, 0.01, 0, g)); WORLD.addCollider({ cx:75.05, cz:20.0, ux:0, uz:1, hx:0.85, hz:0.3, y0:G, y1:G + 0.9, glass:false, owner:'bench', name:'sea bench' }); }
+pbox(0.36, 0.38, 0.36, '#7a6a5a', 76.0, G, -30.0, 0.04);
+{ const g = new THREE.Group(); g.position.set(36.3, G, 2.2); PROPS.add(g); pbox(1.5, 0.06, 0.06, '#d83a4a', 0, 0.6, 0, 0.02, 0, g); [-0.6, 0.6].forEach(sx=>pbox(0.6, 0.6, 0.05, '#2a2a30', sx, 0.02, 0, 0.28, 0, g));
+  pbox(0.24, 0.06, 0.12, '#2a2a30', -0.35, 0.86, 0, 0.02, 0, g); pbox(0.06, 0.06, 0.5, '#5a5470', 0.62, 0.95, 0, 0.02, 0, g); const bell = pbox(0.08, 0.08, 0.08, '#f4d24a', 0.62, 1.0, 0.18, 0.03, 0, g); PL.BIKE_BELL = bell;
+  WORLD.addCollider({ cx:36.3, cz:2.2, ux:1, uz:0, hx:0.8, hz:0.2, y0:G, y1:G + 1, glass:false, owner:'bike', name:'courier bicycle' }); }
+pbox(0.6, 0.9, 0.4, '#c8b8a8', 61.4, G, 2.2, 0.03); WORLD.addCollider({ cx:61.4, cz:2.2, ux:1, uz:0, hx:0.32, hz:0.22, y0:G, y1:G + 0.95, glass:false, owner:'shelf', name:'stationer shelf' });
 { const vx = 10.2, vz = 27.95; pbox(0.32, 0.8, 0.32, '#d8c8d8', vx, G, vz, 0.03); pbox(0.16, 0.24, 0.16, '#a8d8f0', vx, G + 0.8, vz, 0.05);
   WORLD.addCollider({ cx:vx, cz:vz, ux:1, uz:0, hx:0.17, hz:0.17, y0:G, y1:G + 1.05, glass:false, owner:'vase stand', name:'vase stand' });
   PL.H17_VASE_TOP = { x:vx, y:G + 0.9, z:vz, name:'vase' }; }
@@ -319,6 +335,37 @@ const CAST = [
       outfits:{ work:{ coat:'#f4f6fb', sleeve:'#f49a4a', pants:'#4a4a58', collar:'#8ab8e0', comps:['vest'] }, home:{ coat:'#c8d8e8', sleeve:'#c8d8e8', pants:'#4a4a58', collar:'#c8d8e8' } } } },
   { id:'R20', name:'清晨清洁工', home:'APT_S', speed:1.1, look:{ hair:'cap', capC:'#7a9a7a', h:1.0, w:1.04, vest:'#f49a3a', fixed:{ skin:'#89583F', hair:'#2a2018', shoes:'#3a3a40', sole:'#e8e2ea' },
       outfits:{ work:{ coat:'#7a9a7a', sleeve:'#7a9a7a', pants:'#4a5a4a', collar:'#7a9a7a', comps:['vest'] }, home:{ coat:'#b8c8b8', sleeve:'#b8c8b8', pants:'#4a5a4a', collar:'#b8c8b8' } } } },
+  // batch 7: the rest of the relationship people (and the caregiver and child the teacher waits with)
+  { id:'R07', name:'海岸慢跑者', home:'APT_N', speed:1.7, look:{ hair:'pony', h:1.0, w:0.92, fixed:{ skin:'#F0C8AA', hair:'#5a3424', shoes:'#ffffff', sole:'#e8e2ea' },
+      outfits:{ casual:{ coat:'#d83a4a', sleeve:'#d83a4a', pants:'#3a3a48', collar:'#ffffff' }, home:{ coat:'#e8c8c8', sleeve:'#e8c8c8', pants:'#4a4a58', collar:'#e8c8c8' } } } },
+  { id:'R08', name:'老钓鱼者', home:'H11', speed:0.95, look:{ hair:'cap', capC:'#4a6a4a', h:0.96, w:1.0, beard:true, hunch:0.25, scarf:'#c83a3a', freq:4.5, fixed:{ skin:'#DFAC86', hair:'#b8b8bc', shoes:'#3a3440', sole:'#e8e2ea' },
+      outfits:{ casual:{ coat:'#6a7a6a', sleeve:'#6a7a6a', pants:'#4a4a50', collar:'#8a9a8a', comps:['scarf'] }, home:{ coat:'#a8b0a8', sleeve:'#a8b0a8', pants:'#4a4a50', collar:'#a8b0a8' } } } },
+  { id:'R09', name:'帽衫居民', home:'H08', speed:1.25, look:{ hair:'beanie', hatC:'#1e1c24', h:1.02, w:1.0, fixed:{ skin:'#89583F', hair:'#141016', shoes:'#2a2a30', sole:'#d8d8dc' },
+      outfits:{ casual:{ coat:'#1e1c24', sleeve:'#1e1c24', pants:'#2a2a30', collar:'#1e1c24' }, home:{ coat:'#5a5a62', sleeve:'#5a5a62', pants:'#2a2a30', collar:'#5a5a62' } } } },
+  { id:'R10', name:'骑车送货员', home:'APT_N', speed:1.5, look:{ hair:'cap', capC:'#d83a4a', h:1.0, w:1.0, pack:'#d83a4a', fixed:{ skin:'#AB7453', hair:'#1a1416', shoes:'#2a2a30', sole:'#e8e2ea' },
+      outfits:{ work:{ coat:'#3a3a48', sleeve:'#3a3a48', pants:'#2a2a30', collar:'#d83a4a', comps:['pack'] }, home:{ coat:'#8a8a98', sleeve:'#d83a4a', pants:'#2a2a30', collar:'#8a8a98' } } } },
+  { id:'R11', name:'看海的人A', home:'H22', speed:1.1, look:{ hair:'long', h:0.98, w:0.94, scarf:'#c8c8d0', fixed:{ skin:'#F0C8AA', hair:'#7a4a2a', shoes:'#8a6a5a', sole:'#e8e2ea' },
+      outfits:{ casual:{ coat:'#f4c8d8', sleeve:'#f4c8d8', pants:'#8a7a88', collar:'#fff0f4', comps:['scarf'] }, home:{ coat:'#f2e4ea', sleeve:'#f2e4ea', pants:'#8a7a88', collar:'#f2e4ea' } } } },
+  { id:'R12', name:'文具店主', home:'H10', speed:1.2, look:{ hair:'short', glasses:true, h:1.0, w:0.98, bag:'#3a8a9a', fixed:{ skin:'#DFAC86', hair:'#4a3020', shoes:'#3a3440', sole:'#e8e2ea' },
+      outfits:{ work:{ coat:'#e8e4ec', sleeve:'#3a8a9a', pants:'#4a4a58', collar:'#e8e4ec', comps:['bag'] }, home:{ coat:'#b8c8d0', sleeve:'#b8c8d0', pants:'#4a4a58', collar:'#b8c8d0' } } } },
+  { id:'R16', name:'钟表店主', home:'CLOCKSHOP_UP', speed:1.0, look:{ hair:'short', glasses:true, h:0.98, w:0.96, apron:'#5a4a40', fixed:{ skin:'#F0C8AA', hair:'#d8d8dc', shoes:'#4a3a30', sole:'#e8e2ea' },
+      outfits:{ work:{ coat:'#d8d0c8', sleeve:'#5a4a40', pants:'#4a4048', collar:'#d8d0c8', comps:['apron'] }, home:{ coat:'#c8c0b8', sleeve:'#c8c0b8', pants:'#4a4048', collar:'#c8c0b8' } } } },
+  { id:'R17', name:'酒吧工作人员', home:'BAR_UP', speed:1.3, look:{ hair:'short', h:1.02, w:0.98, vest:'#1e1c24', fixed:{ skin:'#AB7453', hair:'#1a1416', shoes:'#1a1820', sole:'#3a3640' },
+      outfits:{ work:{ coat:'#fbfbfb', sleeve:'#fbfbfb', pants:'#1e1c24', collar:'#1e1c24', comps:['vest'] }, home:{ coat:'#2a3a5a', sleeve:'#2a3a5a', pants:'#1e1c24', collar:'#2a3a5a' } } } },
+  { id:'R18', name:'学校老师', home:'H09', speed:1.25, look:{ hair:'pony', h:1.0, w:0.96, scarf:'#2e5a4a', fixed:{ skin:'#e8c4a4', hair:'#5a3424', shoes:'#5a4a3a', sole:'#e8e2ea' },
+      outfits:{ casual:{ coat:'#efe4d0', sleeve:'#efe4d0', pants:'#5a5a64', collar:'#f8f2e8', comps:['scarf'] }, home:{ coat:'#d8d0e0', sleeve:'#d8d0e0', pants:'#5a5a64', collar:'#d8d0e0' } } } },
+  { id:'R21', name:'车站值勤员', home:'APT_S', speed:1.2, look:{ hair:'cap', capC:'#3a4a8a', h:1.02, w:1.0, beard:true, fixed:{ skin:'#DFAC86', hair:'#a8a8ac', shoes:'#2a2a30', sole:'#e8e2ea' },
+      outfits:{ work:{ coat:'#3a4a8a', sleeve:'#3a4a8a', pants:'#2a3050', collar:'#e8eef4' }, home:{ coat:'#9aa0b8', sleeve:'#9aa0b8', pants:'#2a3050', collar:'#9aa0b8' } } } },
+  { id:'R23', name:'看海的人B', home:'H22', speed:1.35, look:{ hair:'short', h:1.06, w:0.98, fixed:{ skin:'#C68F69', hair:'#141016', shoes:'#2a2a30', sole:'#e8e2ea' },
+      outfits:{ work:{ coat:'#6a7a98', sleeve:'#6a7a98', pants:'#3a3a48', collar:'#e8eef4' }, casual:{ coat:'#7a8aa8', sleeve:'#7a8aa8', pants:'#3a3a48', collar:'#7a8aa8' }, home:{ coat:'#a8b4c8', sleeve:'#a8b4c8', pants:'#3a3a48', collar:'#a8b4c8' } } } },
+  { id:'R24', name:'自行车修理者', home:'H15', speed:1.15, look:{ hair:'short', h:0.94, w:1.18, apron:'#2a3a6a', fixed:{ skin:'#89583F', hair:'#2a2018', shoes:'#2a2a30', sole:'#e8e2ea' },
+      outfits:{ work:{ coat:'#3a4a7a', sleeve:'#d83a4a', pants:'#2a2a30', collar:'#3a4a7a', comps:['apron'] }, home:{ coat:'#8a98b8', sleeve:'#8a98b8', pants:'#2a2a30', collar:'#8a98b8' } } } },
+  { id:'R26', name:'串烧摊主', home:'SKEWERS_UP', speed:1.2, look:{ hair:'beanie', hatC:'#a83a2a', h:1.0, w:1.08, apron:'#f2e4cc', fixed:{ skin:'#C68F69', hair:'#2a2018', shoes:'#3a3030', sole:'#e8e2ea' },
+      outfits:{ work:{ coat:'#e8dcc8', sleeve:'#e8dcc8', pants:'#4a3a38', collar:'#e8dcc8', comps:['apron'] }, home:{ coat:'#b89880', sleeve:'#b89880', pants:'#4a3a38', collar:'#b89880' } } } },
+  { id:'D27', name:'等家长学生', home:'H07', speed:1.45, look:{ hair:'pigtails', s:0.7, head:1.25, freq:8.5, bounce:0.06, fixed:{ skin:'#efd0b6', hair:'#3a2418', shoes:'#d83a4a', sole:'#e8e2ea' },
+      outfits:{ casual:{ coat:'#f4b8c8', sleeve:'#f4b8c8', pants:'#5a4a58', collar:'#ffffff' }, home:{ coat:'#f2e4ea', sleeve:'#f2e4ea', pants:'#5a4a58', collar:'#f2e4ea' } } } },
+  { id:'D46', name:'接送照顾者', home:'H07', speed:1.05, look:{ hair:'bun', h:0.96, w:1.04, hunch:0.1, umb:'#f49a3a', fixed:{ skin:'#C68F69', hair:'#a8a8ac', shoes:'#4a3a40', sole:'#e8e2ea' },
+      outfits:{ casual:{ coat:'#c8a890', sleeve:'#c8a890', pants:'#4a4048', collar:'#f2e4cc' }, home:{ coat:'#e0ccc0', sleeve:'#e0ccc0', pants:'#4a4048', collar:'#e0ccc0' } } } },
   { id:'D22', name:'便利店中班', home:'APT_S', speed:1.45, look:{ hair:'pony', h:0.98, w:0.96,
       fixed:{ skin:'#DFAC86', hair:'#2a1a14', shoes:'#e8e4ec', sole:'#e8e2ea' }, outfits:{ work:{ coat:'#f4f6fb', sleeve:'#3a6ab0', pants:'#3a4058', collar:'#3a6ab0' }, casual:{ coat:'#c8a8c8', sleeve:'#c8a8c8', pants:'#3a4058', collar:'#f2eef4' } } } },
 ];
@@ -389,6 +436,36 @@ let DAYS = null; function days(){ return {
         ['14:00', { act:'event', ev:'R04H', role:'giver', at:'STORE_COUNTER2' }], ['15:00', { act:'shell', at:'APT_S', outfit:'home' }] ],
   R20:[ ['00:00', { act:'shell', at:'APT_S', outfit:'home' }], ['05:30', { act:'stand', at:'STORE_OUT', anim:'look', outfit:'work' }], ['06:05', { act:'event', ev:'E11B', role:'cleaner', at:'STORE_OUT' }],
         ['06:30', { act:'wander', loop:'clean', laps:1 }], ['10:20', { act:'event', ev:'E11C', role:'cleaner', at:'PLAZA_N_C' }], ['12:00', { act:'shell', at:'APT_S', outfit:'home' }] ],
+  // batch 7 days (arrival anchors; the spec's, moved only where the walk could not make them — see the report)
+  R07:[ ['00:00', { act:'shell', at:'APT_N', outfit:'home' }], ['06:40', { act:'wander', loop:'seaRunN', laps:1, outfit:'casual' }], ['07:40', { act:'event', ev:'R07HAT', role:'runner', at:'FISH_HELP' }],
+        ['08:10', { act:'wander', loop:'seaRun', laps:1 }], ['09:40', { act:'shell', at:'APT_N', outfit:'home' }], ['17:00', { act:'wander', loop:'seaRun', laps:1, outfit:'casual', rain:{ act:'stand', at:'APT_N', anim:'look' } }], ['18:50', { act:'shell', at:'APT_N', outfit:'home' }] ],
+  R08:[ ['00:00', { act:'home', outfit:'home' }], ['07:00', { act:'sit', at:'FISH_SEAT', anim:'idle', outfit:'casual' }], ['07:40', { act:'event', ev:'R07HAT', role:'angler', at:'FISH_SEAT' }],
+        ['08:30', { act:'event', ev:'R08FISH', role:'angler', at:'FISH_SEAT' }], ['09:40', { act:'sit', at:'FISH_SEAT', anim:'idle' }], ['10:30', { act:'event', ev:'R22ROD', role:'owner', at:'FISH_SEAT' }],
+        ['11:20', { act:'sit', at:'FISH_SEAT', anim:'idle' }], ['14:00', { act:'home', outfit:'home' }] ],
+  R09:[ ['00:00', { act:'home', outfit:'home' }], ['21:40', { act:'event', ev:'R09BOWL', role:'p', at:'CAT_WATCH', outfit:'casual' }], ['23:00', { act:'home', outfit:'home' }] ],
+  R10:[ ['00:00', { act:'shell', at:'APT_N', outfit:'home' }], ['08:00', { act:'work', at:'HARB_S', anim:'carryBox', outfit:'work' }], ['10:00', { act:'stand', at:'DELI_C', anim:'hold' }],
+        ['14:30', { act:'event', ev:'E14', role:'rider', at:'BIKE_REPAIR_C' }], ['16:30', { act:'stand', at:'SCHOOL_GATE', anim:'hold' }], ['18:40', { act:'work', at:'HARB_S', anim:'carryBox' }], ['20:30', { act:'shell', at:'APT_N', outfit:'home' }] ],
+  R11:[ ['00:00', { act:'home', outfit:'home' }], ['17:30', { act:'event', ev:'ESEA0', role:'p', at:'SEA_SEAT_A', outfit:'casual' }], ['17:50', { act:'event', ev:'ESEA', role:'waiter', at:'SEA_SEAT_A' }],
+        ['18:15', { act:'sit', at:'SEA_SEAT_A', anim:'idle' }], ['19:30', { act:'home', outfit:'home' }] ],
+  R23:[ ['00:00', { act:'home', outfit:'home' }], ['09:00', { act:'shell', at:'OFFICE', outfit:'work' }], ['17:50', { act:'event', ev:'ESEA', role:'arriver', at:'SEA_APPROACH', outfit:'casual' }],
+        ['18:15', { act:'sit', at:'SEA_SEAT_B', anim:'idle' }], ['19:30', { act:'home', outfit:'home' }] ],
+  R12:[ ['00:00', { act:'home', outfit:'home' }], ['09:00', { act:'work', at:'STATIONER_STAND', anim:'arrange', outfit:'work' }], ['14:00', { act:'event', ev:'R12CHALK', role:'p', at:'STATIONER_STAND' }],
+        ['14:25', { act:'work', at:'STATIONER_STAND', anim:'arrange' }], ['18:30', { act:'home', outfit:'home' }] ],
+  R16:[ ['00:00', { act:'shell', at:'CLOCKSHOP_UP', outfit:'home' }], ['09:00', { act:'work', at:'CLOCKSHOP_STAND', anim:'arrange', outfit:'work' }], ['10:30', { act:'event', ev:'E15A', role:'taker', at:'CLOCKSHOP_STAND' }],
+        ['11:10', { act:'work', at:'CLOCKSHOP_STAND', anim:'mend' }], ['13:30', { act:'event', ev:'E15B', role:'p', at:'CLOCKSHOP_STAND' }], ['14:00', { act:'work', at:'CLOCKSHOP_STAND', anim:'arrange' }], ['18:00', { act:'shell', at:'CLOCKSHOP_UP', outfit:'home' }] ],
+  R17:[ ['00:00', { act:'work', at:'BAR_STAND', anim:'wipe', outfit:'work' }], ['00:30', { act:'event', ev:'E16', role:'barkeep', at:'SKEWERS_C' }], ['01:00', { act:'work', at:'BAR_STAND', anim:'wipe' }],
+        ['02:10', { act:'shell', at:'BAR_UP', outfit:'home' }], ['16:00', { act:'work', at:'BAR_STAND', anim:'carryBox', outfit:'work' }], ['18:00', { act:'work', at:'BAR_STAND', anim:'wipe' }] ],
+  R26:[ ['00:00', { act:'work', at:'SKEWERS_STAND', anim:'wipe', outfit:'work' }], ['00:30', { act:'event', ev:'E16', role:'cook', at:'SKEWERS_STAND' }], ['01:00', { act:'work', at:'SKEWERS_STAND', anim:'wipe' }],
+        ['02:00', { act:'shell', at:'SKEWERS_UP', outfit:'home' }], ['16:00', { act:'work', at:'SKEWERS_STAND', anim:'arrange', outfit:'work' }] ],
+  R18:[ ['00:00', { act:'home', outfit:'home' }], ['08:30', { act:'shell', at:'SCHOOL', outfit:'casual' }], ['15:00', { act:'event', ev:'R18GATE', role:'teacher', at:'SCHOOL_STEPS' }],
+        ['15:45', { act:'shell', at:'SCHOOL' }], ['17:30', { act:'home', outfit:'home' }] ],
+  // the station's spare clock: from the station at eight to the clock shop by half past ten (the walk across town), back to the desk
+  R21:[ ['00:00', { act:'shell', at:'APT_S', outfit:'home' }], ['06:00', { act:'work', at:'STATION_DESK', anim:'look', outfit:'work' }], ['10:30', { act:'event', ev:'E15A', role:'giver', at:'CLOCKSHOP_C' }],
+        ['13:10', { act:'work', at:'STATION_DESK', anim:'look' }], ['15:00', { act:'shell', at:'APT_S', outfit:'home' }] ],
+  R24:[ ['00:00', { act:'home', outfit:'home' }], ['09:00', { act:'work', at:'BIKE_REPAIR_STAND', anim:'crouch', outfit:'work' }], ['14:30', { act:'event', ev:'E14', role:'mender', at:'BIKE_REPAIR_STAND' }],
+        ['15:10', { act:'work', at:'BIKE_REPAIR_STAND', anim:'crouch' }], ['18:30', { act:'home', outfit:'home' }] ],
+  D27:[ ['00:00', { act:'home', outfit:'home' }], ['08:30', { act:'shell', at:'SCHOOL', outfit:'casual' }], ['15:05', { act:'event', ev:'D46P', role:'child', at:'SCHOOL_WAIT' }], ['16:20', { act:'home', outfit:'home' }] ],
+  D46:[ ['00:00', { act:'home', outfit:'home' }], ['09:00', { act:'home', outfit:'casual' }], ['15:05', { act:'event', ev:'D46P', role:'carer', at:'SCHOOL_WAIT2' }], ['16:20', { act:'home', outfit:'home' }] ],
   R22:[ ['00:00', { act:'shell', at:'APT_N', outfit:'casual' }], ['06:00', { act:'drive', car:'R22', to:'HARBOUR_PARK', outfit:'work' }], ['06:10', { act:'work', at:'HARBOUR_CRATES', anim:'carry' }],
         ['10:00', { act:'drive', car:'R22', to:'CARPARK' }], ['12:30', { act:'shell', at:'APT_N', outfit:'casual' }] ],
 }; }
@@ -466,6 +543,15 @@ makeItem('biscuits', 'notebook', { x:0, y:-50, z:0, hidden:true, name:"grandma's
 makeItem('mitten_red', 'glove', { x:-21.6, y:G + 3.25, z:-4.7, name:'café eave' }); ITEMS.mitten_red.m.traverse(o=>{ if (o.isMesh && o.visible) o.material = matOf('#d83a4a'); });
 makeItem('paper_sheet', 'paper', { x:-31, y:G + 0.02, z:-0.8, name:'arcade (blown in)' });
 makeItem('photo_k03', 'paper', { x:0, y:-50, z:0, hidden:true, name:"the father's pocket" }); ITEMS.photo_k03.m.scale.setScalar(0.55);
+makeItem('hat_r08', 'bowl', { x:0, y:-50, z:0, hidden:true, name:"on R08's head" }); ITEMS.hat_r08.m.traverse(o=>{ if (o.isMesh) o.material = matOf('#4a6a4a'); });
+makeItem('fish', 'phone', { x:0, y:-50, z:0, hidden:true, name:"R08's bucket" }); ITEMS.fish.m.traverse(o=>{ if (o.isMesh) o.material = matOf('#c8d8e0'); }); ITEMS.fish.m.scale.set(2.2, 0.6, 2.4);
+makeItem('rod_r08', 'briefcase', { x:0, y:-50, z:0, hidden:true, name:"R08's rod" }); ITEMS.rod_r08.m.traverse(o=>{ if (o.isMesh) o.material = matOf('#5a4a3a'); }); ITEMS.rod_r08.m.scale.set(0.12, 5.0, 0.4);
+makeItem('cat_water', 'bowl', { x:0, y:-50, z:0, hidden:true, name:"R09's dish" }); ITEMS.cat_water.m.traverse(o=>{ if (o.isMesh) o.material = matOf('#a8d8f0'); }); ITEMS.cat_water.m.scale.setScalar(0.8);
+makeItem('tea_r11', 'cup', { x:0, y:-50, z:0, hidden:true, name:"R23's bag" });
+makeItem('chalk_bag', 'foodbag', { x:0, y:-50, z:0, hidden:true, name:'the stationer' }); ITEMS.chalk_bag.m.traverse(o=>{ if (o.isMesh) o.material = matOf('#f4f4f4'); }); ITEMS.chalk_bag.m.scale.setScalar(0.7);
+makeItem('spare_clock', 'crate', { x:0, y:-50, z:0, hidden:true, name:'the station' }); ITEMS.spare_clock.m.traverse(o=>{ if (o.isMesh) o.material = matOf('#c8a060'); }); ITEMS.spare_clock.m.scale.set(0.6, 0.8, 0.4);
+makeItem('water_r26', 'water', { x:0, y:-50, z:0, hidden:true, name:'the bar' });
+makeItem('food_r17', 'foodbag', { x:0, y:-50, z:0, hidden:true, name:'the skewer stall' }); ITEMS.food_r17.m.traverse(o=>{ if (o.isMesh) o.material = matOf('#c87a4a'); });
 makeItem('drink_r20', 'cup', { x:0, y:-50, z:0, hidden:true, name:'the store' });
 makeItem('meal_r03', 'foodbag', { x:0, y:-50, z:0, hidden:true, name:'the store' });
 makeItem('till_key', 'phone', { x:0, y:-50, z:0, hidden:true, name:"R04's pocket" }); ITEMS.till_key.m.traverse(o=>{ if (o.isMesh) o.material = matOf('#e8c84a'); }); ITEMS.till_key.m.scale.setScalar(0.8);
@@ -906,6 +992,60 @@ EV('R04M', { win:['13:30', '13:55'], roles:['clerk'], setup(){ holdItem(ITEMS.me
 EV('R04H', { win:['14:00', '14:35'], roles:['giver', 'taker'], setup(){ holdItem(ITEMS.till_key, BYID.R04, 1); },
   run(ev){ const ok = handOver(ev, 'R04', 'D22', 'till_key', 0.4); if (ok) setAct(BYID.R04, 'nod', 0.3); return ok && ev.t > 3.6; },
   end(){ if (ITEMS.till_key.holder === 'D22') placeItem(ITEMS.till_key, { x:0, y:-50, z:0, hidden:true, name:'the till' }); } });
+// batch 7 ---------------------------------------------------------------------------------------------------------
+// R07HAT (07:40): a gust takes the angler's hat along the quay; the runner stops, picks it up and gives it back
+EV('R07HAT', { win:['07:40', '08:28'], roles:['angler', 'runner'], setup(ev){ const A = BYID.R08, h = ITEMS.hat_r08; h.m.visible = true; ev.from = { x:A.w.x + 0.05, z:A.w.z }; ev.to = { x:A.w.x - 1.6, z:A.w.z + 1.7 }; placeItem(h, { x:ev.from.x, y:G + 1.25, z:ev.from.z, name:'blowing' }); },
+  run(ev){ const A = BYID.R08, R = BYID.R07, h = ITEMS.hat_r08, t = ev.t;
+    if (!ev.sub){ const u = Math.min(1, Math.max(0, t - 0.4)/2.2); h.m.position.set(ev.from.x + (ev.to.x - ev.from.x)*u, G + 1.25*(1 - u) + 0.35*Math.sin(u*Math.PI), ev.from.z + (ev.to.z - ev.from.z)*u); h.m.rotation.set(u*4, u*3, 0); setAct(A, 'reach', 0.3);
+      if (u >= 1){ placeItem(h, { x:ev.to.x, y:G + 0.01, z:ev.to.z, name:'on the quay' }); ev.sub = 1; } return false; }
+    if (ev.sub === 1){ setAct(A, 'look', 0.4); if (goTo(R, ev.to.x + 0.5, ev.to.z, 1/30)){ R.w.yaw = yawTo(-1, 0); ev.sub = 2; ev.t0 = t; } return false; }
+    if (ev.sub === 2){ if (pickUp(ev, 'R07', 'hat_r08', ev.t0 + 0.2, { after:'hold' })){ ev.sub = 3; ev.t0 = t; } return false; }
+    if (ev.sub === 3){ if (goTo(R, A.w.x - 0.7, A.w.z + 0.3, 1/30)){ ev.sub = 4; ev.t0 = t; } return false; }
+    if (ev.sub === 4){ if (handOver(ev, 'R07', 'R08', 'hat_r08', ev.t0 + 0.2, { after:'idle' })){ placeItem(h, { x:0, y:-50, z:0, hidden:true, name:"on R08's head" }); ev.sub = 5; ev.t0 = t; setAct(A, 'nod', 0.3); } return false; }
+    return t - ev.t0 > 1.4; } });
+// R08FISH (08:30): a small fish thrown onto the quay for one gull (A15); it lands and eats it
+EV('R08FISH', { win:['08:30', '09:40'], roles:['angler'], setup(ev){ holdItem(ITEMS.fish, BYID.R08, 1); },
+  run(ev){ const A = BYID.R08, t = ev.t, f = ITEMS.fish; if (t < 1.6) setAct(A, 'feed', 0.4); else setAct(A, 'look', 0.4);
+    if (t > 1.4 && f.holder === 'R08'){ placeItem(f, { x:A.w.x - 1.5, y:G + 0.02, z:A.w.z + 0.6, name:'on the quay (for the gull)' }); f.m.scale.set(2.2, 0.6, 2.4); GULL_FISH.at = { x:A.w.x - 1.5, z:A.w.z + 0.6 }; GULL_FISH.t = 0; }
+    if (GULL_FISH.eaten){ GULL_FISH.eaten = false; GULL_FISH.at = null; placeItem(f, { x:0, y:-50, z:0, hidden:true, name:'eaten by the gull' }); ev.ate = true; }
+    return (ev.ate && t > 6) || t > 45; },
+  end(){ GULL_FISH.at = null; } });
+// R22ROD (10:30): the harbour worker takes the angler's rod, mends the reel, hands it back
+EV('R22ROD', { win:['10:30', '11:20'], roles:['owner', 'mender'], setup(){ holdItem(ITEMS.rod_r08, BYID.R08, 1); },
+  run(ev){ const t = ev.t; if (!ev.sub){ if (handOver(ev, 'R08', 'R22', 'rod_r08', 0.4, { after:'hold' })){ ev.sub = 1; ev.t0 = t; } return false; }
+    if (ev.sub === 1){ setAct(BYID.R22, 'mend', 0.4); if (t - ev.t0 > 4){ ev.sub = 2; ev.t0 = t; } return false; }
+    if (ev.sub === 2){ if (handOver(ev, 'R22', 'R08', 'rod_r08', ev.t0 + 0.2, { after:'hold' })){ ev.sub = 3; ev.t0 = t; setAct(BYID.R22, 'nod', 0.3); } return false; }
+    return t - ev.t0 > 1.4; },
+  end(){ if (ITEMS.rod_r08.holder === 'R08') {} } });
+// R09BOWL (21:40): at night the hooded neighbour crouches by the cat's place behind the café and leaves a dish of fresh water
+EV('R09BOWL', { win:['21:40', '22:20'], roles:['p'], setup(){ holdItem(ITEMS.cat_water, BYID.R09, 1); },
+  run(ev){ const P = BYID.R09; if (ev.t < 1.5) setAct(P, 'look', 0.4); else setAct(P, 'crouch', 0.5); return putDown(ev, 'R09', 'cat_water', { x:-21.8, y:G + 0.01, z:-15.2, name:"the cat's water" }, 1.6) && ev.t > 4; } });
+// E14 (14:30): the courier's bell — checked (silent), a new one fitted, rung twice
+EV('E14', { win:['14:30', '15:20'], roles:['mender', 'rider'], run(ev){ const M = BYID.R24, Rr = BYID.R10, t = ev.t, bell = PL.BIKE_BELL;
+    M.w.yaw = yawTo(1, 0); ev.sub = t < 3.5 ? 0 : t < 7 ? 1 : 2;
+    if (ev.sub === 0){ setAct(M, 'crouch', 0.4); setAct(Rr, 'look', 0.4); bell.material = matOf('#8a8a90'); }
+    else if (ev.sub === 1){ setAct(M, 'mend', 0.4); bell.material = matOf('#f4d24a'); }
+    else { setAct(M, 'wave', 0.3); setAct(Rr, 'nod', 0.3); bell.scale.setScalar(1 + 0.25*Math.max(0, Math.sin(t*12))*(t < 9.4 ? 1 : 0)); }
+    return t > 10; }, end(){ PL.BIKE_BELL.scale.setScalar(1); } });
+// ESEA0 (17:30): she wipes the seat beside her dry; ESEA (17:50): he comes with a warm drink for her, and sits there
+EV('ESEA0', { win:['17:30', '17:55'], roles:['p'], run(ev){ setAct(BYID.R11, 'wipe', 0.4); return ev.t > 5; } });
+EV('ESEA', { win:['17:50', '18:30'], roles:['waiter', 'arriver'], setup(){ holdItem(ITEMS.tea_r11, BYID.R23, 1); },
+  run(ev){ const ok = handOver(ev, 'R23', 'R11', 'tea_r11', 0.4, { after:'hold' }); return ok && ev.t > 3.6; } });
+// R12CHALK (14:00): chalk ends in a little bag on the shelf by the door, for the students
+EV('R12CHALK', { win:['14:00', '14:25'], roles:['p'], setup(){ holdItem(ITEMS.chalk_bag, BYID.R12, 1); },
+  run(ev){ BYID.R12.w.yaw = yawTo(1, 0); return putDown(ev, 'R12', 'chalk_bag', { x:61.4, y:G + 0.92, z:2.2, name:'chalk for the students' }, 0.6) && ev.t > 2.4; } });
+// E15: the station keeper brings the spare clock; the clockmaker mends it and sets it in his window, ready to be collected
+EV('E15A', { win:['10:30', '11:20'], roles:['giver', 'taker'], setup(){ holdItem(ITEMS.spare_clock, BYID.R21, 1); }, run(ev){ return handOver(ev, 'R21', 'R16', 'spare_clock', 0.4, { after:'hold' }) && ev.t > 3.6; } });
+EV('E15B', { win:['13:30', '14:00'], roles:['p'], setup(){ if (ITEMS.spare_clock.holder !== 'R16') holdItem(ITEMS.spare_clock, BYID.R16, 1); },
+  run(ev){ const P = BYID.R16; if (ev.t < 4) { setAct(P, 'mend', 0.4); return false; } P.w.yaw = yawTo(-1, 0); return putDown(ev, 'R16', 'spare_clock', { x:30.4, y:G + 0.95, z:-3.9, name:'clock window (mended)' }, 4.2) && ev.t > 6.2; } });
+// E16 (00:30): the bartender brings the skewer stall a glass of water; a little parcel of food comes back
+EV('E16', { win:['00:30', '01:10'], roles:['barkeep', 'cook'], setup(){ holdItem(ITEMS.water_r26, BYID.R17, 1); holdItem(ITEMS.food_r17, BYID.R26, 0); },
+  run(ev){ if (!ev.sub){ if (handOver(ev, 'R17', 'R26', 'water_r26', 0.4, { after:'hold' })){ ev.sub = 1; ev.t0 = ev.t; } return false; }
+    if (ev.sub === 1){ if (handOver(ev, 'R26', 'R17', 'food_r17', ev.t0 + 0.5, { after:'hold' })){ ev.sub = 2; ev.t0 = ev.t; } return false; } return ev.t - ev.t0 > 1.6; } });
+// R18GATE (15:00): the teacher at the door waves the children off, and stays until the last one is fetched; D46P: the caregiver comes, they go
+EV('R18GATE', { win:['15:00', '15:50'], roles:['teacher'], run(ev){ const P = BYID.R18; setAct(P, ev.t < 4 ? 'wave' : 'look', 0.4); return ev.t > 4 && (EVENTS.D46P.state === 'done' || ev.t > 26); } });
+EV('D46P', { win:['15:05', '16:00'], roles:['carer', 'child'], run(ev){ const A = BYID.D46, B = BYID.D27; B.w.yaw = yawTo(A.w.x - B.w.x, A.w.z - B.w.z); A.w.yaw = yawTo(B.w.x - A.w.x, B.w.z - A.w.z);
+    setAct(B, ev.t < 2 ? 'wave' : 'look', 0.4); setAct(A, ev.t < 2 ? 'look' : 'nod', 0.4); return ev.t > 3.4; } });
 // E10 (02:15–02:45): the nurse at her own door at night, her own blanket on, an unopened bottle of water by her knee
 EV('E10', { win:['02:15', '02:50'], roles:['nurse'], run(ev){ const P = BYID.K05; showComp(P.pp, 'blanket', true); P.seated = PL.H06_CHAIR; setAct(P, 'idle'); return ev.t > 6; },
   end(){ showComp(BYID.K05.pp, 'blanket', false); } });
@@ -1026,8 +1166,10 @@ function duckTick(dt){ const d = mod1440(NOW), run = DUCK_RUN.find(t0=>d >= t0 &
     const dx = tx - D.x, dz = tz - D.z, dd = Math.hypot(dx, dz), sp = (D.i === 1 && D.lag > 1.5 ? 0.12 : D.i === 1 && D.lag !== undefined ? 0.45 : D.i === 2 ? 0.5 : 0.3)*AS;
     if (dd > 0.05){ const s = Math.min(dd, sp*dt); D.x += dx/dd*s; D.z += dz/dd*s; D.yaw = Math.atan2(-dz, dx); D.moving = true; } else D.moving = false; D.y = G + 0.02; }); }
 // the gulls: each has its post on the pier rail; in turn (its own rhythm) it flies out to glide by the ferry, then comes back to the same post
+const GULL_FISH = { at:null, eaten:false, t:0 };
 function gullTick(dt){ const F = C.FERRY.position, tt = C.SIM.steps/30, d = mod1440(NOW), day = d > hm('06:00') && d < hm('19:30');
-  GULLS.forEach(B=>{ const cyc = (tt + B.i*13) % 70, follow = day && cyc < 30; B.mode = follow ? 'follow' : 'post';
+  GULLS.forEach(B=>{ if (B.i === 0 && GULL_FISH.at){ const f = GULL_FISH.at; B.mode = 'fish'; if (birdFly(B, { x:f.x - 0.2, y:Math.hypot(f.x - B.x, f.z - B.z) > 3 ? G + 3 : G, z:f.z }, dt, 14) && Math.abs(B.y - G) < 0.05){ B.peck = true; GULL_FISH.t += dt; if (GULL_FISH.t > 2.2){ GULL_FISH.eaten = true; B.peck = false; } } B.near = 99; return; }
+    const cyc = (tt + B.i*13) % 70, follow = day && cyc < 30; B.mode = follow ? 'follow' : 'post';
     if (follow){ const a = tt*0.6 + B.i*1.3; birdFly(B, { x:F.x - 4 + Math.cos(a)*5, y:G + 5 + B.i*0.6 + Math.sin(a*1.7)*0.6, z:F.z + Math.sin(a)*5 }, dt, 9); }
     else { const p = B.post, far = Math.hypot(p[0] - B.x, p[1] - B.z) > 2.5; if (birdFly(B, { x:p[0], y:far ? G + 4 : G + 1.2, z:p[1] }, dt, 8) && !far) { B.yaw = Math.PI; B.atPostT = (B.atPostT || 0) + dt; } else B.atPostT = 0; }
     B.near = Math.hypot(F.x - B.x, F.z - B.z); }); }
@@ -1133,7 +1275,8 @@ function tick(dt){ NOW = C.worldMin(); simT += dt;
   // lost thing in the box — the loop of phase 1 (see the report) — put back at 01:00 while the boy sleeps
   const d = mod1440(NOW); const it = ITEMS.mitten_blue;
   if (d >= hm('01:00') && d < hm('01:05') && it.holder === 'R06' && BYID.R06.room){ placeItem(it, { ...PL.LOST_BOX, y:PL.LOST_BOX.y + 0.02, name:'lost box' }); it.mended = false; it.m.userData.stitch.visible = false; }
-  if (d >= hm('04:00') && d < hm('04:05')){ placeItem(ITEMS.ring_k01, { x:0.55, y:G + 0.005, z:-9.75, name:'under the bench' }); ITEMS.ring_k01.m.scale.set(0.9, 0.35, 2.2);
+  if (d >= hm('04:00') && d < hm('04:05')){ ['cat_water', 'spare_clock', 'chalk_bag', 'tea_r11', 'water_r26', 'food_r17', 'fish'].forEach(k=>{ if (ITEMS[k].holder || ITEMS[k].place) placeItem(ITEMS[k], { x:0, y:-50, z:0, hidden:true, name:'put away overnight' }); });
+    placeItem(ITEMS.ring_k01, { x:0.55, y:G + 0.005, z:-9.75, name:'under the bench' }); ITEMS.ring_k01.m.scale.set(0.9, 0.35, 2.2);
     if (!(ITEMS.mitten_red.place && ITEMS.mitten_red.place.name === 'café eave')) placeItem(ITEMS.mitten_red, { x:-21.6, y:G + 3.25, z:-4.7, name:'café eave' }); placeItem(ITEMS.paper_sheet, { x:-31, y:G + 0.02, z:-0.8, name:'arcade (blown in)' }); }
   if (d >= hm('03:00') && d < hm('03:05') && ITEMS.bread_delivery.holder == null && BYID.R02.hidden && BYID.K06.hidden){ placeItem(ITEMS.bread_delivery, { x:25.4, y:G + 1.01, z:-7.95, name:'bakery counter' }); }
   if (ITEMS.blanket_h01.holder === 'K02' && BYID.K02.room && BYID.K02.seated && EVENTS.E06.state !== 'run'){ showComp(BYID.K02.pp, 'blanket', false); placeItem(ITEMS.blanket_h01, { ...PL.H01_ARMCHAIR_TOP, name:'armchair' }); }
@@ -1147,6 +1290,7 @@ function pose(dt){ const t = C.SIM.steps/30; PEOPLE.forEach(P=>{ try { posePerso
 DAYS = days(); k04();
 { const ins = (id, t, e, back) => { const D0 = DAYS[id]; let cur = null; D0.forEach(([tt, x])=>{ if (hm(tt) <= hm(t)) cur = x; }); D0.push([t, e]); if (back && cur) D0.push([back, { ...cur, outfit:undefined }]); D0.sort((a, b)=>hm(a[0]) - hm(b[0])); };
   ins('R02', '12:00', { act:'event', ev:'E13A', role:'giver', at:'BAKERY_DOOR_OUT' }, '12:30');
+  DAYS.R22 = DAYS.R22.map(([t, e])=>t === '10:00' ? ['11:40', e] : [t, e]); DAYS.R22.push(['10:30', { act:'event', ev:'R22ROD', role:'mender', at:'FISH_HELP' }]); DAYS.R22.sort((a, b)=>hm(a[0]) - hm(b[0]));
   ins('D22', '14:00', { act:'event', ev:'R04H', role:'taker', at:'STORE_COUNTER', outfit:'work' }, '14:30');
   ins('K01', '13:40', { act:'event', ev:'E13B', role:'taker', at:'PLAZA_N' }, '14:05');
   ins('K01', '14:40', { act:'event', ev:'E03', role:'sitter', at:'PLAZA_N' }, '16:15');

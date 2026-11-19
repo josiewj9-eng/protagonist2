@@ -72,6 +72,11 @@ addCam('C61', [-13.6, 3.3, 3.6], [-17.6, 0.8, -1.8], { fov:58, icon:'arcade' });
 addCam('C62', [-24.2, 3.3, 1.2], [-28.4, 0.8, -2.6], { fov:56, icon:'flowers' });                       // batch 2: the flower shop's rack (the reserved bouquet)
 addCam('C63', [-0.6, 3.6, 40.4], [-5.2, 0.6, 36.8], { fov:56, ir:true, icon:'street' });                 // batch 2: the corner on the south avenue, its bench (E07)
 addCam('C64', [13.6, 3.4, 31.6], [9.4, 0.8, 27.9], { fov:58, ir:true, icon:'house' });                    // batch 2: K10's door and the vase
+addCam('C67', [72.6, 3.6, -26.6], [76.0, 0.5, -30.4], { fov:58, icon:'harbour' });                      // batch 7: the angler on the north quay (the hat, the gull, the rod)
+addCam('C68', [71.6, 3.4, 24.4], [75.0, 0.5, 20.0], { fov:58, ir:true, icon:'sea' });                     // batch 7: the bench by the sea
+addCam('C69', [28.4, 3.4, 1.0], [32.6, 0.6, -1.4], { fov:68, icon:'arcade' });                              // batch 7: the clock shop and the bicycle repair
+addCam('C70', [56.0, 3.3, 0.0], [60.8, 0.6, 2.2], { fov:58, icon:'arcade' });                              // batch 7: the stationer
+addCam('C71', [-54.2, 3.4, 45.0], [-51.8, 0.6, 49.8], { fov:60, ir:true, icon:'alley' });                  // batch 7: the bar alley (the water, the parcel)
 addCam('C66', [3.2, 3.4, 41.0], [8.4, 0.6, 45.4], { fov:58, ir:true, icon:'store' });                       // batch 6: the store's counter and its door (E11, the shift)
 addCam('C65', [-4.6, 3.6, -3.4], [0.6, 0.4, -9.4], { fov:56, icon:'plaza' });                            // batch 5: the plaza's north bench (K01: the ring, the bread)
 C.WORLD.buildNav();

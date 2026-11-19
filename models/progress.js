@@ -73,7 +73,8 @@ who('R26', 'The Stallholder', [['Before Closing', ['E16.water', 'E16.parcel']]])
  ['D61', 'The Lamp Keeper', 'Before the Street Goes Dark'], ['D62', 'The Harbor Night Keeper', 'A Short Relief', 'D59.relief'], ['D63', 'The Evening Courier', 'Supper on the Way'], ['D64', 'The Park Keeper', 'Leave the Drawing'],
  ['D65', 'The Building Cleaner', 'Before Everyone Leaves'], ['D66', 'The Tower Keeper', 'Upkeep']
 ].forEach(([id, name, title, shared])=>who(id, name, [[title, [shared || id + '.day']]]));
-R.find(r=>r.id === 'D22').entries[0].ph = ['R04.handover', 'D22.day'];   // taking over: the hand-over, then R04 gone and D22 on
+R.find(r=>r.id === 'D22').entries[0].ph = ['R04.handover', 'D22.day'];
+['D27', 'D46'].forEach(id=>{ R.find(r=>r.id === id).entries[0].ph = ['D46P.meet', 'D46P.leave']; });   // taking over: the hand-over, then R04 gone and D22 on
 const HUMANS = R.map(r=>r.id);                     // the 102 human identities
 // animals (their own group)
 who('A01', 'Cat', [['Under the Bench', ['E03.ringOut', 'E03.ringBack']], ['Dinner at the Back Door', ['E08.catWaits', 'E08.bowlDown', 'E08.catEats']]]);
@@ -166,6 +167,31 @@ const PH = {
   'R04.meal':{ check:()=>(run('R04M') || doneToday('R04M')) && placeIs(IT.meal_r03, 'for the night shift') ? [p('R04'), i('meal_r03')] : null },
   'R04.handover':{ check:()=>run('R04H') && EV.R04H.t > 0.2 && EV.R04H.t < 3.4 ? [p('R04'), p('D22'), i('till_key')] : null },
   'D22.day':{ check:()=>{ const R = BY('R04'), Dd = BY('D22'); return doneToday('R04H') && NOW() - (EV.R04H.ended || 0) < 50 && R && R.w.moving && Dd && !Dd.hidden ? [p('R04'), p('D22')] : null; } },
+  // batch 7: the rest of the relationship people
+  'R07.hatSeen':{ check:()=>run('R07HAT') && EV.R07HAT.sub >= 1 && EV.R07HAT.sub <= 2 ? [p('R07'), i('hat_r08')] : null },
+  'R07.hatReturned':{ check:()=>run('R07HAT') && EV.R07HAT.sub === 4 ? [p('R07'), p('R08')] : null },
+  'R08.fish':{ check:()=>run('R08FISH') && EV.R08FISH.t < 2.6 ? [p('R08')] : null },
+  'R08.gull':{ check:()=>{ const B = L.GULLS[0]; return run('R08FISH') && B.mode === 'fish' && B.peck ? [a('A15')] : null; } },
+  'R09.bowl':{ check:()=>run('R09BOWL') && EV.R09BOWL.t > 1 ? [p('R09')] : null },
+  'R09.fill':{ check:()=>(run('R09BOWL') || doneToday('R09BOWL')) && placeIs(IT.cat_water, "the cat's water") ? [i('cat_water')] : null, dur:1.5 },
+  'E14.check':{ check:()=>run('E14') && EV.E14.t < 3.5 ? [p('R24'), p('R10')] : null },
+  'E14.fixed':{ check:()=>run('E14') && EV.E14.t >= 3.5 && EV.E14.t < 7 ? [p('R24')] : null },
+  'E14.ring':{ check:()=>run('E14') && EV.E14.t >= 7 && EV.E14.t < 9.6 ? [p('R24'), p('R10')] : null },
+  'R11.dry':{ check:()=>run('ESEA0') ? [p('R11')] : null },
+  'R23.arrive':{ check:()=>{ const P = BY('R23'); return P && P.variant && P.variant.ev === 'ESEA' && P.stage === 'go' && !P.hidden && near(P, 75, 20, 14) ? [p('R23')] : null; } },
+  'R23.drink':{ check:()=>run('ESEA') && EV.ESEA.t > 0.4 && EV.ESEA.t < 3 ? [p('R23'), p('R11'), i('tea_r11')] : null },
+  'R12.chalk':{ check:()=>(run('R12CHALK') && EV.R12CHALK.t > 1.2) || (doneToday('R12CHALK') && placeIs(IT.chalk_bag, 'chalk for the students')) ? [i('chalk_bag')] : null, dur:1.5 },
+  'E15.handed':{ check:()=>run('E15A') && EV.E15A.t > 0.4 && EV.E15A.t < 3 ? [p('R21'), p('R16'), i('spare_clock')] : null },
+  'E15.received':{ check:()=>run('E15A') && EV.E15A.t > 0.4 && EV.E15A.t < 3.6 ? [p('R16'), i('spare_clock')] : null },
+  'E15.mended':{ check:()=>(run('E15B') || doneToday('E15B')) && placeIs(IT.spare_clock, 'clock window (mended)') ? [i('spare_clock')] : null, dur:1.5 },
+  'E16.water':{ check:()=>run('E16') && !EV.E16.sub ? [p('R17'), p('R26'), i('water_r26')] : null },
+  'E16.parcel':{ check:()=>run('E16') && EV.E16.sub === 1 ? [p('R26'), p('R17'), i('food_r17')] : null },
+  'R18.dismiss':{ check:()=>run('R18GATE') && EV.R18GATE.t < 4 ? [p('R18')] : null },
+  'R18.lastPickedUp':{ check:()=>run('R18GATE') && run('D46P') ? [p('R18'), { any:[p('D46'), p('D27')] }] : null },
+  'D46P.meet':{ check:()=>run('D46P') ? [p('D46'), p('D27')] : null },
+  'D46P.leave':{ check:()=>{ const A = BY('D46'), B = BY('D27'); return doneToday('D46P') && NOW() - (EV.D46P.ended || 0) < 40 && A && B && A.w.moving && B.w.moving ? [p('D46'), p('D27')] : null; } },
+  'R22.rodTaken':{ check:()=>run('R22ROD') && EV.R22ROD.sub <= 1 && EV.R22ROD.t > 0.4 ? [p('R22'), i('rod_r08')] : null },
+  'R22.rodBack':{ check:()=>run('R22ROD') && EV.R22ROD.sub === 2 ? [p('R22'), p('R08')] : null },
   // the inner worlds: seen through their own eyes, open, for a whole round of what they show
   'F02.high':{ dream:'F02', check:(D)=>D.k > 0.95 && D.flyT > 9 && !D.roofed ? [] : null, dur:1.0 },
   'F02.ground':{ dream:'F02', check:(D)=>D.k > 0.9 && D.flyT > 3 && !L.DOG.room ? [a('A02')] : null },
